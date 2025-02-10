@@ -15,14 +15,12 @@ public class Convolution {
             for (int x = halfSize; x < input.width - halfSize; x++) {
                 int sum = 0;
 
-                // Parcourir la fenêtre size x size
                 for (int dy = -halfSize; dy <= halfSize; dy++) {
                     for (int dx = -halfSize; dx <= halfSize; dx++) {
                         sum += input.get(x + dx, y + dy);
                     }
                 }
 
-                // Appliquer la moyenne et mettre le pixel dans l'image de sortie
                 output.set(x, y, sum / (size * size));
             }
         }
@@ -31,7 +29,20 @@ public class Convolution {
     
 
   public static void convolution(GrayU8 input, GrayS16 output, int[][] kernel) {
-      // TODO
+    int halfSize = kernel.length / 2;
+    for (int y = halfSize; y < input.height - halfSize; y++) {
+        for (int x = halfSize; x < input.width - halfSize; x++) {
+            int sum = 0;
+
+            for (int dy = -halfSize; dy <= halfSize; dy++) {
+                for (int dx = -halfSize; dx <= halfSize; dx++) {
+                    sum += input.get(x + dx, y + dy)*kernel[x + dx][y + dy];
+                }
+            }
+
+            output.set(x, y, sum );
+        }
+    }
   }
 
   public static void gradientImage(GrayU8 input, GrayU8 output, int[][] kernelX, int[][] kernelY){
